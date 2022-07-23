@@ -1,5 +1,3 @@
-<?php ob_start(); ?>
-
 <h2>Feedback</h2>
 
 <?php if(empty($feedbacks)) : ?>
@@ -17,9 +15,3 @@
     </div>
   </div>
 <?php endforeach; ?>
-
-<?php 
-$title = 'Feedbacks';
-$content = ob_get_clean(); 
-require_once 'views/template.html.php';
-?>

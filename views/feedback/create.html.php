@@ -1,5 +1,3 @@
-<?php ob_start(); ?>
-
 <img src="<?= URL ?>/public/img/logo.png" class="w-25 mb-3" alt="">
 <h2>Feedback</h2>
 <p class="lead text-center">Leave feedback for Traversy Media</p>
@@ -33,9 +31,3 @@
     <input type="submit" name="submit" value="Send" class="btn btn-dark w-100">
   </div>
 </form>
-
-<?php 
-$title = 'Home';
-$content = ob_get_clean(); 
-require_once 'views/template.html.php';
-?>

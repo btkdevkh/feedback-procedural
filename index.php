@@ -16,8 +16,9 @@ if(isset($_GET['feedback'])) {
       $feedbackController->about();
       break;
     default:
+      $feedbackController->index();
       break;
   } 
 } else {
-  require_once 'views/feedback/create.html.php';
+  $feedbackController->index();
 }

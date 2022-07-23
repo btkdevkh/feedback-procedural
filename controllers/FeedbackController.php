@@ -1,8 +1,15 @@
 <?php
 
 require_once 'models/FeedbackModel.php';
+require_once 'controllers/Controller.php';
 
-class FeedbackController {
+class FeedbackController extends Controller {
+  public function index() {
+    $this->render('feedback/create', [
+      'title' => 'Home',
+    ]);
+  }
+
   public function createFeedback() {
     $name = $email = $body = '';
     $nameErr = $emailErr = $bodyErr = '';
@@ -33,16 +40,29 @@ class FeedbackController {
       }
     }
 
-    require_once 'views/feedback/create.html.php';
+    $this->render('feedback/create', [
+      'title' => 'Create',
+      'name' => $name,
+      'email' => $email,
+      'body' => $body,
+      'nameErr' => $nameErr,
+      'emailErr' => $emailErr,
+      'bodyErr' => $bodyErr,
+    ]);
   }
 
   public function getFeedbacks() {
     $feedback = new FeedbackModel();
     $feedbacks = $feedback->getFeedbacks();
-    require_once 'views/feedback/feedback.html.php';
+    $this->render('feedback/feedback', [
+      'title' => 'Feedback',
+      'feedbacks' => $feedbacks
+    ]);
   }
 
   public function about() {
-    require_once 'views/about.html.php';
+    $this->render('about', [
+      'title' => 'About',
+    ]);
   }
 }
