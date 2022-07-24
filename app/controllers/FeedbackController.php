@@ -1,12 +1,8 @@
 <?php
 
-require_once APPROOT . '/' . 'models/FeedbackModel.php';
-
 class FeedbackController extends CoreController {
-  private $feedbackModel;
-
   public function __construct() {
-    $this->feedbackModel = new FeedbackModel();
+    $this->feedbackModel = $this->model('FeedbackModel');
   }
 
   public function createAndUpdateFeedback($id = null) {
