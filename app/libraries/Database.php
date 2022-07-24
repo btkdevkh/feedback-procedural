@@ -1,7 +1,5 @@
 <?php
 
-require_once 'config.php';
-
 class Database {
   private static $db_host = DB_HOST;
   private static $db_name = DB_NAME;

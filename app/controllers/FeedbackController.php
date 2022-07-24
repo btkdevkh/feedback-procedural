@@ -1,6 +1,6 @@
 <?php
 
-require_once 'models/FeedbackModel.php';
+require_once APPROOT . '/' . 'models/FeedbackModel.php';
 
 class FeedbackController extends CoreController {
   private $feedbackModel;
@@ -73,6 +73,6 @@ class FeedbackController extends CoreController {
   }
 
   public function about() {
-    $this->render('about', ['title' => 'About']);
+    $this->render('pages/about', ['title' => 'About']);
   }
 }

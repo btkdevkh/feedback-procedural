@@ -14,12 +14,12 @@ class CoreController {
       // var_dump($url);
       // echo '</pre>';
       
-      if(file_exists('controllers/' . ucwords($url[0]) . '.php')) {
+      if(file_exists(APPROOT . '/' . 'controllers/' . ucwords($url[0]) . '.php')) {
         $this->currentController = ucwords($url[0]);
         unset($url[0]);
       }
 
-      require_once 'controllers/' . $this->currentController . '.php';
+      require_once APPROOT . '/' . 'controllers/' . $this->currentController . '.php';
 
       $this->currentController = new $this->currentController;
 
@@ -42,8 +42,8 @@ class CoreController {
   protected function render(string $path, array $data = []) {
     ob_start();
     extract($data);
-    require_once "views/$path.html.php";
+    require_once APPROOT . '/' . "views/$path.html.php";
     $content = ob_get_clean(); 
-    require_once 'views/template.html.php';
+    require_once APPROOT . '/' . 'views/template.html.php';
   } 
 }
