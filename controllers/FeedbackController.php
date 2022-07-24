@@ -4,14 +4,22 @@ require_once 'models/FeedbackModel.php';
 require_once 'controllers/Controller.php';
 
 class FeedbackController extends Controller {
-  public function index() {
-    $this->render('feedback/create', [
-      'title' => 'Home',
-    ]);
+  private $feedbackModel;
+
+  public function __construct() {
+    $this->feedbackModel = new FeedbackModel();
   }
 
-  public function createFeedback() {
-    $name = $email = $body = '';
+  public function index() {
+    $this->render('feedback/create', ['title' => 'Home']);
+  }
+
+  public function createAndUpdateFeedback($id = null) {
+    if($id) $feedback = $this->feedbackModel->getFeedback($id);
+
+    $name = $id ? $feedback['name'] : '';
+    $email = $id ? $feedback['email'] : '';
+    $body = $id ? $feedback['body'] : '';
     $nameErr = $emailErr = $bodyErr = '';
 
     if(isset($_POST['submit'])) {
@@ -34,30 +42,39 @@ class FeedbackController extends Controller {
       }
 
       if(!$nameErr && !$emailErr && !$bodyErr) {
-        $feedback = new FeedbackModel($name, $email, $body);
-        $result = $feedback->createFeedback();
-        if($result) header('Location:' . URL . '?feedback=feedbacks');
+        if($id === null) {
+          $resultCreated = $this->feedbackModel->createFeedback($name, $email, $body);
+          if($resultCreated) header('Location:' . URL . '?url=feedbacks');
+        } else {
+          $resultUpdated = $this->feedbackModel->updateFeedback($name, $email, $body, $id);
+          if($resultUpdated) header('Location:' . URL . '?url=feedbacks');
+        }
       }
     }
 
     $this->render('feedback/create', [
-      'title' => 'Create',
+      'title' => isset($id) ? 'Update' : 'Create',
       'name' => $name,
       'email' => $email,
       'body' => $body,
       'nameErr' => $nameErr,
       'emailErr' => $emailErr,
       'bodyErr' => $bodyErr,
+      'id' => $id
     ]);
   }
 
   public function getFeedbacks() {
-    $feedback = new FeedbackModel();
-    $feedbacks = $feedback->getFeedbacks();
+    $feedbacks = $this->feedbackModel->getFeedbacks();
     $this->render('feedback/feedback', [
       'title' => 'Feedback',
       'feedbacks' => $feedbacks
     ]);
+  }
+
+  public function deleteFeedback($id) {
+    $result = $this->feedbackModel->deleteFeedback($id);
+    if($result) header('Location:' . URL . '?url=feedbacks');
   }
 
   public function about() {

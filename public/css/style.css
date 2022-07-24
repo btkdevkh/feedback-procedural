@@ -1,0 +1,24 @@
+.delete, .update {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  color: white;
+  background-color: crimson;
+  padding: 10px;
+  width: 30px;
+  height: 30px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.delete:hover, .update:hover {
+  color: #ddd;
+}
+
+.update {
+  top: 0;
+  left: 0;
+  background-color: orange;
+}

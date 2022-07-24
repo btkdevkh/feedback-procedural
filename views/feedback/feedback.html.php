@@ -13,5 +13,8 @@
         By <?= $item['name']; ?> on <?= $item['date']; ?>
       </div>
     </div>
+
+    <a href="<?= URL . '?url=delete=' . htmlspecialchars($item['id']) ?>" class="delete">X</a>
+    <a href="<?= URL . '?url=update=' . htmlspecialchars($item['id']) ?>" class="update">.../</a>
   </div>
 <?php endforeach; ?>
