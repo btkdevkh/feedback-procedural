@@ -1,24 +1,31 @@
 <?php
 
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '123456789');
-define('DB_NAME', 'phpfeed');
+require_once 'config.php';
 
-function connectDB() {
-  $conn = null;
+class Database {
+  private static $db_host = DB_HOST;
+  private static $db_name = DB_NAME;
+  private static $db_user = DB_USER;
+  private static $db_pass = DB_PASS;
+  private static $conn;
 
-  try {
-    if($conn === null) {
-      $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+  private static function setDB() {
+    try {
+      self::$conn = new PDO("mysql:host=" . self::$db_host . ";dbname=" . self::$db_name, self::$db_user, self::$db_pass);
       // set the PDO error mode to exception
-      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+      self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      self::$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
       // echo "Connected successfully";
+    } catch(PDOException $e) {
+      echo "Connection failed: " . $e->getMessage();
     }
-    
-    return $conn;
-  } catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+  }
+
+  protected function getDb() {
+    if(self::$conn === null) {
+      self::setDb();
+    } 
+
+    return self::$conn;
   }
 }
